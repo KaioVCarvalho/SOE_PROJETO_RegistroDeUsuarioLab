@@ -1,42 +1,70 @@
 ### Instalações necessárias 
 pip install dlib
-
 pip intall pillow
-
 pip intal face_recongnition -no - cache-dir
 
 
 #### Configurar um diretório Face_images:
 
 Face_Images deve ter subdiretórios com o nome da pessoa que deve ser reconhecida e algumas fotos de exemplo dela dentro dele.
-
 Você deve renomear a pasta com o nome da pessoa que você está reconhecendo 5 fotos para cada pessoa.
 
 #### Importando bibliotecas 
 
 import cv2 #For Image processing
-
 import numpy as np #For converting Images to Numerical array
-
 import os #To handle directories
-
 from PIL import Image #Pillow lib for handling images
 
 ##### USANDO haarcascade_frontalface_default.xml para detectar os rostos nas imagens.
-
-
  Certifique-se de ter colocado este arquivo xml na pasta do projeto, caso contrário, ocorrerá um erro. 
-
 Encontrado nesse link:
 https://github.com/kipr/opencv/blob/master/data/haarcascades/haarcascade_frontalface_default.xml
 
-
-
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
 recognizer = cv2.createLBPHFaceRecognizer()
 
+#### Pessoas que o sistema reconhece 
 
+labels = ["Kaio","Julia"]
+recognizer.load("face-trainner.yml")
+
+##### Captura do vídeo 
+Talvez precise mudar algum parâmetro aqui, não sei se a captura funciona só assim.
+
+cap = cv2.VideoCapture(0)
+
+#### Em seguida, dividimos o vídeo em quadros (Imagens), convertemos em tons de cinza e detectamos os rostos na imagem. Assim que os rostos forem detectados, temos que cortar essa área como fizemos anteriormente e salvá-la separadamente como roi_gray.
+
+ret, img = cap.read() 
+gray  = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) 
+faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5) 
+for (x, y, w, h) in faces:
+roi_gray = gray[y:y+h, x:x+w] 
+id_, conf = recognizer.predict(roi_gray) 
+
+####### A variável conf nos diz o quão confiante o software está reconhecendo o rosto. Se o nível de confiança for maior que 80, obtemos o nome da pessoa usando o número de identificação usando a linha de código abaixo. Em seguida, desenhe uma caixa ao redor do rosto da pessoa e escreva o nome da pessoa no topo da caixa.
+Diminuir esta variável pode permitir a identificação com mais facilidade e menos confiabilidade.
+
+
+if conf>=80:
+        font = cv2.FONT_HERSHEY_SIMPLEX 
+        name = labels[id_] 
+        cv2.putText(img, name, (x,y), font, 1, (0,0,255), 2)
+cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+
+#### Finalmente, temos que exibir o feed de vídeo que acabamos de analisar e, em seguida, interromper o feed quando uma tecla de espera (aqui q) for pressionada.
+Sustituindo esta parte por :
+
+cv2.imshow('Preview',img) 
+if cv2.waitKey(20) & 0xFF == ord('q'):
+return name
+   break
+
+
+
+
+###      Referências      #### 
 https://www.lojamundi.com.br/Reconhecimento-facial-em-tempo-real-com-Raspberry-Pi-e-OpenCV
 
 
