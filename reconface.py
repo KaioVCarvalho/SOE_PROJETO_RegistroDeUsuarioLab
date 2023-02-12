@@ -5,11 +5,11 @@ import face_recognition
 video_capture = cv2.VideoCapture(0)
 
 # Carregando e reconhecendo a face do usuário 1.
-user1_image = face_recognition.load_image_file("180065416.jpg")
+user1_image = face_recognition.load_image_file("./img/180065416.jpg")
 user1_face_encoding = face_recognition.face_encodings(user1_image)[0]
 
 # Carregando e reconhecendo a face do usuário 2.
-user2_image = face_recognition.load_image_file("180034090.jpg")
+user2_image = face_recognition.load_image_file("./img/180034090.jpg")
 user2_face_encoding = face_recognition.face_encodings(user2_image)[0]
 
 # Criando array de associação das facer reconhecidas.
