@@ -11,7 +11,7 @@ def generate_face_encodings(file):
     known_face_encodings = []
     for line in lines:
         matricula = line.strip()
-        image_path = f"./img/{matricula}.jpg"
+        image_path = f"./image/{matricula}.jpg"
         image = face_recognition.load_image_file(image_path)
         encoding = face_recognition.face_encodings(image)[0]
         known_face_encodings.append(encoding)
