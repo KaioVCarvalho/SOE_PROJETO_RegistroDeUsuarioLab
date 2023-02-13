@@ -2,7 +2,7 @@ import cv2
 import numpy as np 
 import face_recognition
 
-video_capture = cv2.VideoCapture(0)
+#video_capture = cv2.VideoCapture(0)
 
 def generate_face_encodings(file):
     with open(file, "r") as f:
@@ -53,7 +53,7 @@ while True:
         for face_encoding in face_encodings:
             # Comparando faces encontradas com Faces conhecidas.
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-            name = "Unknown"
+            name = "Desconhecido"
 
             # Escolhe a face mais proxima
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
