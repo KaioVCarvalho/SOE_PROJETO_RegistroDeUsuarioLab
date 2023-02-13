@@ -62,7 +62,13 @@ while True:
                 name = known_face_names[best_match_index]
 
             face_names.append(name)
-
+            
+        if "Unknown" not in face_names:
+            with open("resultado.txt", "w") as f:
+                for name in face_names:
+                    index = known_face_names.index(name)
+                    f.write(name + " " + str(index) + "\n")
+            break
     process_this_frame = not process_this_frame
 
 
