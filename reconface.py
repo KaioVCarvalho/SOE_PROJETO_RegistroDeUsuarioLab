@@ -2,7 +2,7 @@ import cv2
 import numpy as np 
 import face_recognition
 
-#video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(0)
 
 def generate_face_encodings(file):
     with open(file, "r") as f:
@@ -70,6 +70,4 @@ while True:
                     f.write(name + " " + str(index) + "\n")
             break
     process_this_frame = not process_this_frame
-
-
 
