@@ -1,0 +1,11 @@
+sudo apt-get install libcurl4-openssl-dev libjson-c-dev cmake binutils make
+sudo apt-get install build-essential
+sudo apt-get install git-all
+cd ~
+git clone https://github.com/WiringPi/WiringPi
+cd ~/WiringPi
+./build
+cd ..
+sudo apt-get update
+sudo apt-get install libopencv-dev
+python -m pip install opencv-python
