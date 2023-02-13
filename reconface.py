@@ -41,28 +41,22 @@ while True:
     if process_this_frame:
         # Redimensionando o print pra acelerar o processamento
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-
         # convertendo imagem pra RGB
-        rgb_small_frame = small_frame[:, :, ::-1]
-        
+        rgb_small_frame = small_frame[:, :, ::-1]        
         # Encontrando faces no frame da webcam
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
-
         face_names = []
         for face_encoding in face_encodings:
             # Comparando faces encontradas com Faces conhecidas.
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
             name = "Desconhecido"
-
             # Escolhe a face mais proxima
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
-
-            face_names.append(name)
-            
+            face_names.append(name)            
         if "Unknown" not in face_names:
             with open("resultado.txt", "w") as f:
                 for name in face_names:
